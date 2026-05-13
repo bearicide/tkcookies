@@ -1,0 +1,11 @@
+{
+  "name": "Thought Cookies",
+  "short_name": "Cookies",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#120820",
+  "theme_color": "#ffb703",
+  "description": "A tiny inspirational word redefiner and action prompt generator.",
+  "icons": []
+}
