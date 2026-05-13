@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thought Cookies</title>
+<meta name="theme-color" content="#ffb703">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 12% 0%,rgba(255,207,90,.48),transparent 28%),radial-gradient(circle at 88% 10%,rgba(255,79,216,.27),transparent 32%),linear-gradient(135deg,#120820,#11372f,#452508);color:#fff}
+.app{width:min(94vw,1000px);margin:auto;padding:28px 16px 70px}
+.hero{text-align:center}
+.badge{display:inline-block;padding:8px 14px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.08);font-weight:900;color:#fff2b8}
+h1{font-size:clamp(3rem,11vw,7rem);margin:14px 0 8px;line-height:.9;letter-spacing:-.075em;background:linear-gradient(90deg,#ff4d4d,#ffb703,#7cff6b,#00d9ff,#d96bff);-webkit-background-clip:text;color:transparent}
+.subtitle{opacity:.88;margin:0 auto 18px;font-size:clamp(1rem,3vw,1.22rem);max-width:760px}
+.pillrow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px auto}
+.pill{padding:8px 12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.2);border-radius:999px;font-size:.86rem;color:#d8fbff}
+.layout{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:860px){.layout{grid-template-columns:.9fr 1.1fr;align-items:start}}
+.box{padding:20px;border-radius:28px;background:rgba(255,255,255,.085);border:1px solid rgba(255,255,255,.16);box-shadow:0 0 42px rgba(53,231,255,.12);backdrop-filter:blur(10px)}
+.controls{display:grid;gap:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+label{text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.13em;color:#fff3b8;font-weight:950;display:block;margin:0 0 6px}
+select,input,button,textarea{width:100%;border:0;border-radius:18px;padding:14px 15px;font-size:1rem;font-weight:850;font-family:inherit}
+select,input,textarea{background:#fff;color:#1a1029}
+textarea{min-height:74px;resize:vertical;font-weight:700}
+button{cursor:pointer;background:linear-gradient(90deg,#ffcf5a,#79ff8f,#35e7ff);color:#160d20;box-shadow:0 12px 26px rgba(0,0,0,.28);transition:.18s}
+button:hover{transform:translateY(-2px) scale(1.01)}
+button.secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)}
+button.danger{background:linear-gradient(90deg,#ff7b7b,#ffcf5a);color:#1b0910}
+.cookie-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:8px 0 34px}
+.cookie{width:126px;height:126px;border-radius:50%;position:relative;background:radial-gradient(circle at 30% 28%,#fff2b8 0 8%,transparent 9%),radial-gradient(circle at 66% 38%,#5f2e10 0 5%,transparent 6%),radial-gradient(circle at 38% 72%,#6b3412 0 5%,transparent 6%),radial-gradient(circle,#df9636,#9d551c 70%,#55270d);box-shadow:0 18px 34px rgba(0,0,0,.42),inset 0 -14px 22px rgba(0,0,0,.24),inset 0 14px 24px rgba(255,255,255,.2);animation:floaty 3s ease-in-out infinite}
+.cookie:nth-child(2){animation-delay:.35s}
+.cookie:nth-child(3){animation-delay:.7s}
+.cookie:after{content:attr(data-label);position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);font-size:.78rem;color:#fff3b8;white-space:nowrap;font-weight:950}
+.cookie.crack{animation:crack .45s ease}
+.label{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#fff3b8;font-weight:950}
+.word{font-size:clamp(2.5rem,9vw,5.5rem);line-height:.9;margin:8px 0 12px;font-weight:1000;color:#ffcf5a;letter-spacing:-.055em}
+.definition{font-size:clamp(1.2rem,3.1vw,1.85rem);line-height:1.36;font-weight:850}
+.action,.reflection,.quote{margin-top:16px;padding:16px;border-radius:20px;background:rgba(0,0,0,.28);font-size:1.02rem}
+.action{border-left:5px solid #35e7ff}
+.reflection{border-left:5px solid #ff4fd8}
+.quote{border-left:5px solid #79ff8f;color:#eaffee}
+.formula{margin-top:16px;color:#d7fbff;opacity:.82;font-size:.95rem}
+.history{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.card{padding:14px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);text-align:left}
+.card b{color:#ffcf5a;display:block;margin-bottom:4px}
+.card small{display:block;color:#9ff5ff;margin-top:8px}
+.spark{position:fixed;width:10px;height:10px;border-radius:50%;pointer-events:none;animation:spark .8s linear forwards;z-index:20}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);padding:12px 16px;border-radius:999px;background:#111;color:#fff;border:1px solid rgba(255,255,255,.22);opacity:0;transition:.2s;z-index:50}
+.toast.show{opacity:1;bottom:28px}
+footer{margin-top:32px;opacity:.72;font-size:.92rem;text-align:center}
+.empty{opacity:.72}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes crack{0%{transform:scale(1) rotate(0)}32%{transform:scale(1.14) rotate(5deg)}70%{transform:scale(.9) rotate(-5deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes spark{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-90px) scale(0)}}
+</style>
+</head>
+
+<body>
+<main class="app">
+<section class="hero">
+<div class="badge">🍪 Thought Cookie Generator</div>
+<h1>Thought Cookies</h1>
+<p class="subtitle">Crack a cookie. Pick a vibe. Get a fresh little definition, written less like a dictionary and more like a human trying to light a match in the wind.</p>
+<div class="pillrow">
+<span class="pill">word → redefinition</span>
+<span class="pill">tiny action</span>
+<span class="pill">favorites jar</span>
+<span class="pill">single-file app</span>
+</div>
+</section>
+
+<section class="layout">
+<div>
+<section class="box controls">
+<div class="grid">
+<div>
+<label for="theme">Theme</label>
+<select id="theme">
+<option value="motivational">Motivational</option>
+<option value="positive">Positive</option>
+<option value="creative">Creative</option>
+<option value="birthday">Birthday</option>
+<option value="funny">Funny</option>
+<option value="gentle">Gentle</option>
+<option value="deep">Deep Thoughts</option>
+<option value="goblin">Goblin Wisdom</option>
+<option value="diner">Diner Philosophy</option>
+<option value="cosmic">Cosmic</option>
+</select>
+</div>
+
+<div>
+<label for="style">Style</label>
+<select id="style">
+<option value="short">Short</option>
+<option value="medium">Medium
